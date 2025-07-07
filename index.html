@@ -384,26 +384,10 @@
             </div>
         </div>
 
-        <!-- Slide 5: Live Demo (NEW) -->
-        <div class="slide">
-            <div class="slide-content">
-                <h2>Live Demo: CaaS in Action</h2>
-                <p>Enter an industry or use case to see how a Loosh agent would provide value. </p>
-                <div class="demo-container">
-                    <div class="demo-input-group">
-                        <input type="text" id="demo-input" placeholder="e.g., 'Pediatric mental health' or 'Robotics for the elderly'">
-                        <button id="demo-button">✨ Generate Scenario</button>
-                    </div>
-                    <div id="demo-output">
-                        The generated application scenario will appear here...
-                    </div>
-                    <div class="loader" id="loader"></div>
-                </div>
-            </div>
-        </div>
+       
 
 
-        <!-- Slide 6: Traction -->
+        <!-- Slide 5: Traction -->
         <div class="slide">
             <div class="slide-content">
                 <h2>Building the future, today.</h2>
@@ -415,7 +399,7 @@
             </div>
         </div>
 
-        <!-- Slide 7: Market Size -->
+        <!-- Slide 6: Market Size -->
         <div class="slide">
             <div class="slide-content">
                 <h2>The market isn't just chatbots; it's every human-machine interaction.</h2>
@@ -427,7 +411,7 @@
             </div>
         </div>
 
-        <!-- Slide 8: Business Model -->
+        <!-- Slide 7: Business Model -->
         <div class="slide">
             <div class="slide-content">
                 <h2>Cognition-as-a-Service (CaaS).</h2>
@@ -440,7 +424,7 @@
             </div>
         </div>
 
-        <!-- Slide 9: Team -->
+        <!-- Slide 8: Team -->
         <div class="slide">
             <div class="slide-content">
                 <h2>We are a team of seasoned architects and builders.</h2>
@@ -458,7 +442,7 @@
             </div>
         </div>
 
-        <!-- Slide 10: Competition -->
+        <!-- Slide 9: Competition -->
         <div class="slide">
             <div class="slide-content">
                 <h2>While others build empathic features, we build cognitive foundations.</h2>
@@ -491,7 +475,7 @@
             </div>
         </div>
 
-        <!-- Slide 11: The Ask -->
+        <!-- Slide 10: The Ask -->
         <div class="slide">
             <div class="slide-content">
                 <h2>We are raising a $1.5M seed round.</h2>
@@ -501,7 +485,7 @@
                     <li>Secure our first major data partnerships to build an unparalleled training dataset.</li>
                     <li>Launch our mainnet subnets on Bittensor by Q1 2026.</li>
                 </ul>
-                <p><strong>Join us in building AI that can finally understand and partner with humanity.</strong></p>
+                <p><strong>Join us in building AI that can finally understand and partner with humanity.<br><a href="mailto:hello@loosh.ai">Send us an email</a></strong></p>
             </div>
         </div>
         
@@ -594,70 +578,7 @@
                 }
             });
 
-            // --- Gemini API Integration ---
-            const demoButton = document.getElementById('demo-button');
-            const demoInput = document.getElementById('demo-input');
-            const demoOutput = document.getElementById('demo-output');
-            const loader = document.getElementById('loader');
-
-            demoButton.addEventListener('click', async () => {
-                const userInput = demoInput.value.trim();
-                if (!userInput) {
-                    demoOutput.textContent = 'Please enter an industry or use case.';
-                    return;
-                }
-
-                loader.style.display = 'block';
-                demoOutput.textContent = '';
-
-                const prompt = `You are a representative of Loosh AI, an artificial intelligence platform specializing in emotionally and ethically intelligent agents built on a decentralized cognitive architecture. A potential customer is asking for an application scenario in the following industry: "${userInput}".
-
-Describe a detailed use case for a Loosh agent in this context. Structure your response with clear headings. Focus on:
-1.  **The Scenario:** A clear description of the setting and user.
-2.  **Emotional Intelligence in Action:** How the agent uses its MIME system to detect nuance and subtext.
-3.  **Ethical Reasoning:** How the agent's self-inhibition and ethical modules would handle a sensitive situation.
-4.  **Value Proposition:** The concrete benefits of using a Loosh agent in this scenario.`;
-
-                try {
-                    let chatHistory = [];
-                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                    const payload = { contents: chatHistory };
-                    const apiKey = ""; // API key will be provided by the environment
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                    
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`API request failed with status ${response.status}`);
-                    }
-                    
-                    const result = await response.json();
-
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        const text = result.candidates[0].content.parts[0].text;
-                        demoOutput.textContent = text;
-                    } else {
-                        demoOutput.textContent = 'Could not generate a response. The model may have returned an empty result. Please try a different prompt.';
-                    }
-                } catch (error) {
-                    console.error('Error calling Gemini API:', error);
-                    demoOutput.textContent = `An error occurred while generating the scenario. Please check the console for details. Error: ${error.message}`;
-                } finally {
-                    loader.style.display = 'none';
-                }
-            });
-            
-            demoInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    demoButton.click();
-                }
-            });
+        
 
             updateSlides();
         });
