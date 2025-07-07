@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loosh AI - Pitch Deck</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        :root {
+            --background-color: #f8f9fa;
+            --slide-background: #ffffff;
+            --text-color: #212529;
+            --primary-color: #007bff;
+            --heading-color: #343a40;
+            --light-gray: #ced4da;
+            --input-bg: #f1f3f5;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow: hidden;
+        }
+        
+        /* --- Password Overlay --- */
+        #password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #password-box {
+            background-color: var(--slide-background);
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        #password-box h2 {
+            color: var(--heading-color);
+            margin-top: 0;
+        }
+
+        #password-input {
+            width: calc(100% - 30px);
+            padding: 12px 15px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            border-radius: 6px;
+            border: 1px solid var(--light-gray);
+        }
+
+        #password-submit {
+            width: 100%;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #password-submit:hover {
+            background-color: #0056b3;
+        }
+
+        #password-error {
+            color: #e74c3c;
+            margin-top: 10px;
+            height: 20px;
+            font-size: 0.9rem;
+        }
+
+        @keyframes shake {
+          10%, 90% { transform: translate3d(-1px, 0, 0); }
+          20%, 80% { transform: translate3d(2px, 0, 0); }
+          30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+          40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        /* --- Deck Styles --- */
+        .deck-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .slide {
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5vw;
+            background-color: var(--slide-background);
+            position: absolute;
+            top: 0;
+            left: 100%;
+            transition: left 0.5s ease-in-out;
+            text-align: center;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            left: 0;
+        }
+
+        .slide.previous {
+            left: -100%;
+        }
+
+        .slide-content {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            color: var(--heading-color);
+            margin-bottom: 0.5em;
+            font-weight: 700;
+        }
+        
+        h2 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            color: var(--primary-color);
+            margin-bottom: 0.75em;
+            font-weight: 600;
+        }
+
+        p, li {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            line-height: 1.7;
+            margin-bottom: 1em;
+        }
+        
+        ul {
+            text-align: left;
+            display: inline-block;
+            list-style-position: outside;
+            padding-left: 20px;
+        }
+
+        .tagline {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: var(--text-color);
+            font-weight: 400;
+        }
+
+        .slide-0 .loosh-logo {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            color: var(--heading-color);
+            margin-bottom: 20px;
+        }
+
+        .team-members {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .team-member {
+            max-width: 350px;
+        }
+
+        .team-member h3 {
+            font-size: 1.4rem;
+            color: var(--heading-color);
+            margin-bottom: 5px;
+        }
+
+        .team-member p {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .competition-table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .competition-table th, .competition-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--light-gray);
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+        }
+
+        .competition-table th {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .competition-table td:first-child {
+            font-weight: 600;
+        }
+
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.3);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+
+        .nav-arrow:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        #prev-btn {
+            left: 20px;
+        }
+
+        #next-btn {
+            right: 20px;
+        }
+
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 8px;
+            background-color: var(--primary-color);
+            z-index: 100;
+            transition: width 0.5s ease-in-out;
+        }
+        
+        .slide-footer {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Gemini Demo Styles */
+        .demo-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .demo-input-group {
+            display: flex;
+            gap: 10px;
+        }
+        #demo-input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border-radius: 6px;
+            border: 1px solid var(--light-gray);
+            background-color: var(--input-bg);
+        }
+        #demo-button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #demo-button:hover {
+            background-color: #0056b3;
+        }
+        #demo-output {
+            text-align: left;
+            background-color: var(--input-bg);
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 200px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            font-size: 0.95rem;
+            border: 1px solid var(--light-gray);
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none; /* Hidden by default */
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+    </style>
+</head>
+<body>
+    <div id="password-overlay">
+        <div id="password-box">
+            <h2>Enter Password</h2>
+            <p>This content is protected. Please enter the password to view the pitch deck.</p>
+            <input type="password" id="password-input" placeholder="Password" autofocus>
+            <button id="password-submit">Submit</button>
+            <p id="password-error"></p>
+        </div>
+    </div>
+
+    <div class="deck-container">
+        <!-- Slide 1: Company & Tagline -->
+        <div class="slide active slide-0">
+            <div class="slide-content">
+                <div class="loosh-logo">Loosh AI</div>
+                <p class="tagline">Emotionally intelligent agents for the real world.</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: The Problem -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>AI today is emotionally blind.</h2>
+                <p>Language models are powerful, but they don't <em>understand</em>. They can't detect sarcasm, read between the lines, or sense distress.</p>
+                <p>This is a critical failure. Deploying emotionally unaware AI in high-trust roles like healthcare, robotics, or personal companionship is not just ineffective—it's dangerous. Trust is broken, and real-world harm can occur when context is missed.</p>
+            </div>
+        </div>
+
+        <!-- Slide 3: The Solution -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>We are building AI that understands humanity.</h2>
+                <p>Loosh AI is a new class of artificial intelligence: emotionally and ethically intelligent agents.</p>
+                <p>We've built a decentralized cognitive architecture, modeled on the human mind, that integrates layered reasoning, emotional inference, and narrative memory. Our agents don't just predict the next word; they understand context, feel empathy, and learn from experience.</p>
+            </div>
+        </div>
+
+        <!-- Slide 4: How It Works -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>We replicated the architecture of the mind, not just the output.</h2>
+                <p>Our system isn't a single, monolithic model. It's a decentralized network of specialized cognitive modules running on Bittensor.</p>
+                <ul>
+                    <li><strong>Emotional Inference Layer (MIME):</strong> Our core innovation. It analyzes multimodal signals (voice, text, expression) to decode unspoken emotional context.</li>
+                    <li><strong>Cognitive Subsystems:</strong> A distributed mesh of models for specific tasks like ethical reasoning, anticipation, and self-inhibition.</li>
+                    <li><strong>Active Cognition & Memory:</strong> An executive layer that orchestrates the subsystems, makes decisions, and learns from a persistent, narrative memory.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 5: Live Demo (NEW) -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Live Demo: CaaS in Action</h2>
+                <p>Enter an industry or use case to see how a Loosh agent would provide value. </p>
+                <div class="demo-container">
+                    <div class="demo-input-group">
+                        <input type="text" id="demo-input" placeholder="e.g., 'Pediatric mental health' or 'Robotics for the elderly'">
+                        <button id="demo-button">✨ Generate Scenario</button>
+                    </div>
+                    <div id="demo-output">
+                        The generated application scenario will appear here...
+                    </div>
+                    <div class="loader" id="loader"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Slide 6: Traction -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Building the future, today.</h2>
+                <ul>
+                    <li><strong>Product:</strong> Core subnet architecture and validator code is complete. Working prototype demonstrates real-time emotional inference.</li>
+                    <li><strong>Timeline:</strong> On track for TestNet deployment in Q3 2025.</li>
+                    <li><strong>Partnerships:</strong> In active discussions with three leading consciousness research institutes (Monroe Institute, IONS) to secure proprietary neurological data for model training.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 7: Market Size -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>The market isn't just chatbots; it's every human-machine interaction.</h2>
+                <p>The AI Agent market is projected to be a <strong>$13 Trillion</strong> industry by 2030. We are targeting two beachhead markets where emotional intelligence is the most critical missing piece:</p>
+                <ul>
+                    <li><strong>Human-Centric Robotics ($150B Market):</strong> For assistive, companion, and service robots that require safe and natural interaction.</li>
+                    <li><strong>Telehealth & Digital Wellness ($75B Market):</strong> For therapy, coaching, and patient monitoring agents that require genuine empathy and trust.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 8: Business Model -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Cognition-as-a-Service (CaaS).</h2>
+                <p>We provide access to our agents through a scalable, usage-based API. Our revenue is transparent and value-aligned.</p>
+                <ul>
+                    <li><strong>API Usage:</strong> Tiered pricing based on minutes of cognition consumed (Basic Inference, Intermediate Cognition, Advanced Empathy).</li>
+                    <li><strong>Device Licensing:</strong> An annual license for embodied systems (robotics) that require edge deployment.</li>
+                </ul>
+                <p>No ads. No selling data. Just best-in-class cognitive services.</p>
+            </div>
+        </div>
+
+        <!-- Slide 9: Team -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>We are a team of seasoned architects and builders.</h2>
+                <div class="team-members">
+                    <div class="team-member">
+                        <h3>Lisa Cheng, Co-founder & CEO</h3>
+                        <p>Blockchain architect, expert in tokenomics and business development. Proven leader in deploying complex systems.</p>
+                    </div>
+                    <div class="team-member">
+                        <h3>Chris Sorel, Co-founder & CTO</h3>
+                        <p>25+ years in software engineering and architecture, leading projects from startups to Fortune 100 companies.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 40px;">We have the deep technical expertise required to build the next generation of AI.</p>
+            </div>
+        </div>
+
+        <!-- Slide 10: Competition -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>While others build empathic features, we build cognitive foundations.</h2>
+                <table class="competition-table">
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Focus</th>
+                            <th>Our Advantage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Hume.ai</td>
+                            <td>Empathic Voice Interfaces (EVI)</td>
+                            <td>Hume detects <em>what</em> emotion is expressed. Our full-stack cognitive architecture understands <em>why</em> and determines the appropriate, ethical response. We provide the mind, not just the ears.</td>
+                        </tr>
+                        <tr>
+                            <td>Replika</td>
+                            <td>Consumer AI Companionship</td>
+                            <td>Replika optimizes for engagement. Loosh optimizes for safety and principled partnership, using a core architecture of ethical reasoning and self-inhibition.</td>
+                        </tr>
+                        <tr>
+                            <td>Nirvanic AI</td>
+                            <td>Vertical Wellness Applications</td>
+                            <td>Nirvanic is a single-purpose application. Loosh is a horizontal <strong>platform</strong> (CaaS) that can power thousands of applications like it across robotics, healthcare, and more.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 11: The Ask -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>We are raising a $1.5M seed round.</h2>
+                <p>This funding will be used to:</p>
+                <ul>
+                    <li>Expand our core engineering team (Python, ML, Rust).</li>
+                    <li>Secure our first major data partnerships to build an unparalleled training dataset.</li>
+                    <li>Launch our mainnet subnets on Bittensor by Q1 2026.</li>
+                </ul>
+                <p><strong>Join us in building AI that can finally understand and partner with humanity.</strong></p>
+            </div>
+        </div>
+        
+        <div class="slide-footer">Loosh AI</div>
+        <div class="progress-bar"></div>
+        <button id="prev-btn" class="nav-arrow">&#8249;</button>
+        <button id="next-btn" class="nav-arrow">&#8250;</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Password Protection ---
+            const passwordOverlay = document.getElementById('password-overlay');
+            const passwordInput = document.getElementById('password-input');
+            const passwordSubmit = document.getElementById('password-submit');
+            const passwordError = document.getElementById('password-error');
+            const correctPassword = 'looshai2025';
+
+            function checkPassword() {
+                if (passwordInput.value === correctPassword) {
+                    passwordOverlay.style.display = 'none';
+                } else {
+                    passwordError.textContent = 'Incorrect password. Please try again.';
+                    passwordInput.style.border = '1px solid #e74c3c';
+                    const passwordBox = document.getElementById('password-box');
+                    passwordBox.style.animation = 'shake 0.5s';
+                    setTimeout(() => {
+                        passwordBox.style.animation = '';
+                    }, 500);
+                }
+            }
+
+            passwordSubmit.addEventListener('click', checkPassword);
+            passwordInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+
+            // --- Deck Navigation ---
+            const slides = document.querySelectorAll('.slide');
+            const nextBtn = document.getElementById('next-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const progressBar = document.querySelector('.progress-bar');
+            let currentSlide = 0;
+
+            function updateSlides() {
+                slides.forEach((slide, index) => {
+                    slide.classList.remove('active', 'previous');
+                    if (index === currentSlide) {
+                        slide.classList.add('active');
+                    } else if (index < currentSlide) {
+                        slide.classList.add('previous');
+                    }
+                });
+                
+                const progress = ((currentSlide + 1) / slides.length) * 100;
+                progressBar.style.width = `${progress}%`;
+
+                prevBtn.style.display = currentSlide === 0 ? 'none' : 'flex';
+                nextBtn.style.display = currentSlide === slides.length - 1 ? 'none' : 'flex';
+            }
+
+            function goToNextSlide() {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            }
+
+            function goToPrevSlide() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+
+            nextBtn.addEventListener('click', goToNextSlide);
+            prevBtn.addEventListener('click', goToPrevSlide);
+
+            document.addEventListener('keydown', (e) => {
+                if (passwordOverlay.style.display !== 'none') return; // Don't navigate if overlay is visible
+
+                if (e.key === 'ArrowRight' || e.key === ' ') {
+                    if (document.activeElement.tagName !== 'BUTTON' && document.activeElement.tagName !== 'INPUT') {
+                       goToNextSlide();
+                    }
+                } else if (e.key === 'ArrowLeft') {
+                    goToPrevSlide();
+                }
+            });
+
+            // --- Gemini API Integration ---
+            const demoButton = document.getElementById('demo-button');
+            const demoInput = document.getElementById('demo-input');
+            const demoOutput = document.getElementById('demo-output');
+            const loader = document.getElementById('loader');
+
+            demoButton.addEventListener('click', async () => {
+                const userInput = demoInput.value.trim();
+                if (!userInput) {
+                    demoOutput.textContent = 'Please enter an industry or use case.';
+                    return;
+                }
+
+                loader.style.display = 'block';
+                demoOutput.textContent = '';
+
+                const prompt = `You are a representative of Loosh AI, an artificial intelligence platform specializing in emotionally and ethically intelligent agents built on a decentralized cognitive architecture. A potential customer is asking for an application scenario in the following industry: "${userInput}".
+
+Describe a detailed use case for a Loosh agent in this context. Structure your response with clear headings. Focus on:
+1.  **The Scenario:** A clear description of the setting and user.
+2.  **Emotional Intelligence in Action:** How the agent uses its MIME system to detect nuance and subtext.
+3.  **Ethical Reasoning:** How the agent's self-inhibition and ethical modules would handle a sensitive situation.
+4.  **Value Proposition:** The concrete benefits of using a Loosh agent in this scenario.`;
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = ""; // API key will be provided by the environment
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API request failed with status ${response.status}`);
+                    }
+                    
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        demoOutput.textContent = text;
+                    } else {
+                        demoOutput.textContent = 'Could not generate a response. The model may have returned an empty result. Please try a different prompt.';
+                    }
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    demoOutput.textContent = `An error occurred while generating the scenario. Please check the console for details. Error: ${error.message}`;
+                } finally {
+                    loader.style.display = 'none';
+                }
+            });
+            
+            demoInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    demoButton.click();
+                }
+            });
+
+            updateSlides();
+        });
+    </script>
+
+</body>
+</html>
