@@ -8,11 +8,12 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
         :root {
-            --background-primary: #000000;
-            --text-primary: #FFFFFF;
+            --background-primary: #FFFFFF;
+            --text-primary: #000000;
             --accent-signature: #CE4315;
-            --neutral-light: #DFDDE0;
-            --neutral-medium: #666565;
+            --neutral-light: #F0F0F0; /* Lighter grey for section backgrounds */
+            --neutral-medium: #666565; /* For borders and secondary text */
+            --text-secondary: #333333; /* For body text */
         }
 
         body, html {
@@ -20,7 +21,7 @@
             margin: 0;
             font-family: 'Inter', sans-serif;
             background-color: var(--background-primary);
-            color: var(--text-primary);
+            color: var(--text-secondary);
             overflow: hidden;
         }
         
@@ -31,7 +32,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             display: flex;
@@ -41,12 +42,12 @@
         }
 
         #password-box {
-            background-color: #1a1a1a;
+            background-color: var(--background-primary);
             padding: 40px;
             border-radius: 10px;
             text-align: center;
             border: 1px solid var(--neutral-medium);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             max-width: 400px;
             width: 90%;
         }
@@ -64,7 +65,7 @@
             font-size: 1rem;
             border-radius: 6px;
             border: 1px solid var(--neutral-medium);
-            background-color: #333;
+            background-color: var(--neutral-light);
             color: var(--text-primary);
         }
 
@@ -86,7 +87,7 @@
         }
 
         #password-error {
-            color: #f87171;
+            color: #d9534f;
             margin-top: 10px;
             height: 20px;
             font-size: 0.9rem;
@@ -124,6 +125,10 @@
             text-align: center;
             overflow-y: auto;
         }
+        
+        .slide-alt-bg {
+             background-color: #f9f9f9;
+        }
 
         .slide.active {
             left: 0;
@@ -160,7 +165,7 @@
             height: 400px;
             border-radius: 12px;
             object-fit: cover;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 1px solid var(--neutral-medium);
         }
 
         h1 {
@@ -181,7 +186,7 @@
             font-size: clamp(1rem, 1.8vw, 1.1rem);
             line-height: 1.7;
             margin-bottom: 1em;
-            color: var(--neutral-light);
+            color: var(--neutral-medium);
         }
         
         ul {
@@ -193,6 +198,7 @@
         
         li {
             padding-left: 10px;
+            color: var(--text-secondary);
         }
 
         ul > li::marker {
@@ -226,7 +232,7 @@
         
         .team-member {
             max-width: 350px;
-            background-color: #1a1a1a;
+            background-color: var(--background-primary);
             padding: 20px;
             border-radius: 12px;
             border: 1px solid var(--neutral-medium);
@@ -243,7 +249,7 @@
             margin-top: 30px;
             border-collapse: collapse;
             text-align: left;
-            background-color: #1a1a1a;
+            background-color: var(--background-primary);
             border-radius: 8px;
             border: 1px solid var(--neutral-medium);
             overflow: hidden;
@@ -253,6 +259,7 @@
             padding: 15px;
             border-bottom: 1px solid var(--neutral-medium);
             font-size: clamp(0.9rem, 1.5vw, 1rem);
+            color: var(--text-secondary);
         }
 
         .competition-table th {
@@ -320,7 +327,7 @@
     <div id="password-overlay">
         <div id="password-box">
             <h2>Enter Password</h2>
-            <p>This content is protected. Please enter the password to view the pitch deck.</p>
+            <p style="color: var(--neutral-medium);">This content is protected. Please enter the password to view the pitch deck.</p>
             <input type="password" id="password-input" placeholder="Password" autofocus>
             <button id="password-submit">Submit</button>
             <p id="password-error"></p>
@@ -337,20 +344,20 @@
         </div>
 
         <!-- Slide 2: The Problem -->
-        <div class="slide">
+        <div class="slide slide-alt-bg">
             <div class="slide-content-split">
                 <div class="text-content">
                     <h2>AI Today is Emotionally Blind</h2>
                     <p>Language models are powerful, but they don't <em>understand</em>. They can't detect sarcasm, read between the lines, or sense distress. This is a critical failure. Deploying emotionally unaware AI in high-trust roles like healthcare or robotics is not just ineffective—it's dangerous.</p>
                 </div>
-                <img src="https://storage.googleapis.com/gemini-prod-us-west1-assets/2024-07-08/images/impersonal_interaction.jpg" alt="A sleek, minimalist robot arm offering a glowing cube to a human hand, but the interaction feels cold and sterile.">
+                <img src="https://storage.googleapis.com/gemini-prod-us-west1-assets/2024-07-08/images/impersonal_interaction_light.jpg" alt="A clinical, sterile, minimalist photo of a sleek, metallic robot arm and a human hand, separated by a sterile gap, with a stark orange light casting long shadows on a white background.">
             </div>
         </div>
 
         <!-- Slide 3: The Solution -->
         <div class="slide">
             <div class="slide-content-split">
-                 <img src="https://storage.googleapis.com/gemini-prod-us-west1-assets/2024-07-08/images/true_ai_agents.jpg" alt="A holographic interface showing a glowing, intricate neural network in the shape of a human brain.">
+                 <img src="https://storage.googleapis.com/gemini-prod-us-west1-assets/2024-07-08/images/true_ai_agents_light.jpg" alt="A glowing orange neural network, shaped like a brain, on a clean white background, with intricate dark grey data pathways.">
                 <div class="text-content">
                     <h2>Beyond Chatbots: Building True AI Agents</h2>
                     <p>We are creating the next generation of artificial intelligence: agents that are cognitively advanced, emotionally intelligent, self-reflective, and contextually self-inhibiting. Not chatbots. Not copilots. <strong>Actual agents.</strong></p>
@@ -359,7 +366,7 @@
         </div>
 
         <!-- Slide 4: Architecture (Where We Are) -->
-        <div class="slide">
+        <div class="slide slide-alt-bg">
             <div class="slide-content">
                 <h2>Engineering from First Principles</h2>
                 <p>Our robust architectural vision is grounded in cognitive science, affective computing, and embodied intelligence. We have defined a modular framework for building emotionally aware agents.</p>
@@ -386,12 +393,12 @@
                         <li><strong>Customizable Personas</strong></li>
                     </ul>
                 </div>
-                 <img src="https://storage.googleapis.com/gemini-prod-us-west1-assets/2024-07-08/images/embodied_ai.jpg" alt="A sleek, humanoid robot with a polished white and chrome finish, standing in a modern, minimalist home.">
+                 <img src="https://storage.googleapis.com/gemini-prod-us-west1-assets/2024-07-08/images/embodied_ai_light.jpg" alt="A humanoid robot with a clean, white and black design, standing in a modern, sunlit minimalist home with warm orange accent lighting.">
             </div>
         </div>
 
         <!-- Slide 6: The Roadmap (How We Get There) -->
-        <div class="slide">
+        <div class="slide slide-alt-bg">
             <div class="slide-content">
                 <h2>Coordinated Development Tracks</h2>
                 <p>Our development is structured across multiple parallel workstreams, each focused on a critical component of the Loosh ecosystem.</p>
@@ -420,7 +427,7 @@
         </div>
         
         <!-- Slide 8: Business Model -->
-        <div class="slide">
+        <div class="slide slide-alt-bg">
             <div class="slide-content">
                 <h2>Cognition-as-a-Service (CaaS)</h2>
                 <p>We provide access to our agents through a scalable, usage-based API. Our revenue is transparent and value-aligned.</p>
@@ -445,7 +452,7 @@
         </div>
 
         <!-- Slide 10: Competition -->
-        <div class="slide">
+        <div class="slide slide-alt-bg">
             <div class="slide-content">
                 <h2>While others build empathic features, we build cognitive foundations.</h2>
                 <table class="competition-table">
@@ -488,12 +495,12 @@
                         <li><strong>Telehealth & Digital Wellness ($75B Market)</strong></li>
                     </ul>
                 </div>
-                <img src="https://storage.googleapis.com/gemini-prod-us-west1-assets/2024-07-08/images/global_market.jpg" alt="An abstract 3D data visualization of a glowing global network.">
+                <img src="https://storage.googleapis.com/gemini-prod-us-west1-assets/2024-07-08/images/global_market_light.jpg" alt="An abstract 3D data visualization of a global network with a light grey globe and glowing orange lines and nodes on a white background.">
             </div>
         </div>
 
         <!-- Slide 12: Team -->
-        <div class="slide">
+        <div class="slide slide-alt-bg">
             <div class="slide-content">
                 <h2>We Are a Team of Seasoned Architects and Builders</h2>
                 <div class="team-members">
@@ -544,7 +551,7 @@
                     passwordOverlay.style.display = 'none';
                 } else {
                     passwordError.textContent = 'Incorrect password. Please try again.';
-                    passwordInput.style.border = '1px solid #f87171';
+                    passwordInput.style.border = '1px solid #d9534f';
                     const passwordBox = document.getElementById('password-box');
                     passwordBox.style.animation = 'shake 0.5s';
                     setTimeout(() => {
@@ -619,4 +626,3 @@
 
 </body>
 </html>
-
